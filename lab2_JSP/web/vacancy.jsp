@@ -15,7 +15,7 @@
                     <td><input type="text" readonly="readonly" name="id" value="<c:out value="${vacancy.id}" />" /></td>
                 </tr>
                 <tr>
-                    <td>Company:</td>
+                    <td>Company ID:</td>
                     <td><input  type="text" name="companyID" value="<c:out value="${vacancy.companyID}" />" /></td>
                 </tr>
                 <tr>

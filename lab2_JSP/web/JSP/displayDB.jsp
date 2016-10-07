@@ -11,7 +11,7 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Company</th>
+                <th>CompanyID</th>
                 <th>Position</th>
                 <th>Requirements</th>
                 <th>Description</th>

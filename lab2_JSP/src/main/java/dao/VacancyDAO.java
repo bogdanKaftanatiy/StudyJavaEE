@@ -4,6 +4,7 @@ import main.java.dbUtilities.ConnectionManager;
 import main.java.model.Vacancy;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
 public class VacancyDAO implements DAO<Integer, Vacancy> {
     private ConnectionManager connectionManager;
 
-    public VacancyDAO() throws SQLException, IOException, ClassNotFoundException {
-        connectionManager = ConnectionManager.getInstance();
+    public VacancyDAO(InputStream is) throws SQLException, IOException, ClassNotFoundException {
+        connectionManager = ConnectionManager.getInstance(is);
     }
 
     @Override

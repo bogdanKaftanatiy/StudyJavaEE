@@ -4,6 +4,7 @@ import main.java.dbUtilities.ConnectionManager;
 import main.java.model.Company;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
 public class CompanyDAO implements DAO<Integer, Company> {
     private ConnectionManager connectionManager;
 
-    public CompanyDAO() throws SQLException, IOException, ClassNotFoundException {
-        connectionManager = ConnectionManager.getInstance();
+    public CompanyDAO(InputStream is) throws SQLException, IOException, ClassNotFoundException {
+        connectionManager = ConnectionManager.getInstance(is);
     }
 
     @Override

@@ -14,35 +14,42 @@ import java.sql.SQLException;
 
 @WebServlet(name = "DBController", urlPatterns = "/DBController")
 public class DBController extends HttpServlet {
-    private String INSERT_OR_EDIT_VACANCY = "/vacancy.jsp";
-    private String INSERT_OR_EDIT_COMPANY = "/company.jsp";
-    private String INSERT_OR_EDIT_DIRECTOR = "/director.jsp";
-    private String DISPLAY_DB = "/displayDB.jsp";
+    private String INSERT_OR_EDIT_VACANCY = "/JSP/vacancy.jsp";
+    private String INSERT_OR_EDIT_COMPANY = "/JSP/company.jsp";
+    private String INSERT_OR_EDIT_DIRECTOR = "/JSP/director.jsp";
+    private String DISPLAY_DB = "/JSP/displayDB.jsp";
+    private String ERROR = "/JSP/errorPage.jsp";
 
     private DAO<Integer, Director> directorDAO;
     private DAO<Integer, Company> companyDAO;
     private DAO<Integer, Vacancy> vacancyDAO;
 
-    public DBController() {
-        super();
-        try {
-            directorDAO = new DirectorDAO();
-            companyDAO = new CompanyDAO();
-            vacancyDAO = new VacancyDAO();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    private void initDAO() throws SQLException, IOException, ClassNotFoundException {
+        if (directorDAO == null)
+            directorDAO = new DirectorDAO(getServletContext().getResourceAsStream("/WEB-INF/db.properties"));
+        if (companyDAO == null)
+            companyDAO = new CompanyDAO(getServletContext().getResourceAsStream("/WEB-INF/db.properties"));
+        if (vacancyDAO == null)
+            vacancyDAO = new VacancyDAO(getServletContext().getResourceAsStream("/WEB-INF/db.properties"));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            initDAO();
+        } catch (SQLException | ClassNotFoundException e) {
+            RequestDispatcher view = request.getRequestDispatcher(ERROR);
+            view.forward(handleException(e, request), response);
+        }
         String type = request.getParameter("formName");
         if("vacancyForm".equalsIgnoreCase(type)) {
             String companyStr = request.getParameter("companyID");
-            int companyID = Integer.parseInt(companyStr);
+            int companyID = 0;
+            try {
+                companyID = Integer.parseInt(companyStr);
+            } catch (NumberFormatException e) {
+                RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                view.forward(handleException(e, request), response);
+            }
             String position = request.getParameter("position");
             String requirements = request.getParameter("requirements");
             String description = request.getParameter("description");
@@ -53,34 +60,55 @@ public class DBController extends HttpServlet {
                 try {
                     vacancyDAO.addObject(new Vacancy(companyID, position, requirements, description, email));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             } else {
-                int id = Integer.parseInt(vacancyId);
+                int id = 0;
+                try {
+                    id = Integer.parseInt(vacancyId);
+                } catch (NumberFormatException e){
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
+                }
                 try {
                     vacancyDAO.updateObject(new Vacancy(id, companyID, position, requirements, description, email));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             }
         } else if ("companyForm".equalsIgnoreCase(type)) {
             String name = request.getParameter("name");
             String directorStr = request.getParameter("directorID");
-            int directorID = Integer.parseInt(directorStr);
-
+            int directorID = 0;
+            try {
+                directorID = Integer.parseInt(directorStr);
+            } catch (NumberFormatException e) {
+                RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                view.forward(handleException(e, request), response);
+            }
             String companyID = request.getParameter("id");
             if(companyID == null || companyID.isEmpty()) {
                 try {
                     companyDAO.addObject(new Company(name, directorID));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             } else {
-                int id = Integer.parseInt(companyID);
+                int id = 0;
+                try {
+                    id = Integer.parseInt(companyID);
+                }catch (NumberFormatException e){
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
+                }
                 try {
                     companyDAO.updateObject(new Company(id, name, directorID));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             }
         } else if ("directorForm".equalsIgnoreCase(type)) {
@@ -92,14 +120,22 @@ public class DBController extends HttpServlet {
                 try {
                     directorDAO.addObject(new Director(firstName, surName));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             } else {
-                int id = Integer.parseInt(directorID);
+                int id = 0;
+                try {
+                    id = Integer.parseInt(directorID);
+                } catch (NumberFormatException e) {
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
+                }
                 try {
                     directorDAO.updateObject(new Director(id, firstName, surName));
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             }
         }
@@ -109,12 +145,19 @@ public class DBController extends HttpServlet {
             request.setAttribute("allVacancy", vacancyDAO.getAllObjects());
             request.setAttribute("allCompany", companyDAO.getAllObjects());
         } catch (SQLException e) {
-            e.printStackTrace();
+            RequestDispatcher viewError = request.getRequestDispatcher(ERROR);
+            viewError.forward(handleException(e, request), response);
         }
         view.forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            initDAO();
+        } catch (SQLException | ClassNotFoundException e) {
+            RequestDispatcher view = request.getRequestDispatcher(ERROR);
+            view.forward(handleException(e, request), response);
+        }
         String forward = "";
         String action = request.getParameter("action");
         String object = request.getParameter("object");
@@ -124,7 +167,8 @@ public class DBController extends HttpServlet {
                 request.setAttribute("allCompany", companyDAO.getAllObjects());
                 request.setAttribute("allDirector", directorDAO.getAllObjects());
             } catch (SQLException e) {
-                e.printStackTrace();
+                RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                view.forward(handleException(e, request), response);
             }
             forward = DISPLAY_DB;
         } else if("edit".equalsIgnoreCase(action)) {
@@ -135,7 +179,8 @@ public class DBController extends HttpServlet {
                     request.setAttribute("vacancy", vacancy);
                     forward = INSERT_OR_EDIT_VACANCY;
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             } else if ("company".equalsIgnoreCase(object)) {
                 try {
@@ -143,7 +188,8 @@ public class DBController extends HttpServlet {
                     request.setAttribute("company", company);
                     forward = INSERT_OR_EDIT_COMPANY;
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             } else if ("director".equalsIgnoreCase(object)) {
                 try {
@@ -151,7 +197,8 @@ public class DBController extends HttpServlet {
                     request.setAttribute("director", director);
                     forward = INSERT_OR_EDIT_DIRECTOR;
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                    view.forward(handleException(e, request), response);
                 }
             }
         } else if ("delete".equalsIgnoreCase(action)) {
@@ -168,7 +215,8 @@ public class DBController extends HttpServlet {
                 request.setAttribute("allCompany", companyDAO.getAllObjects());
                 request.setAttribute("allDirector", directorDAO.getAllObjects());
             } catch (SQLException e) {
-                e.printStackTrace();
+                RequestDispatcher view = request.getRequestDispatcher(ERROR);
+                view.forward(handleException(e, request), response);
             }
             forward = DISPLAY_DB;
         } else if ("insert".equalsIgnoreCase(action)) {
@@ -182,5 +230,12 @@ public class DBController extends HttpServlet {
         }
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
+    }
+
+    private HttpServletRequest handleException(Exception e, HttpServletRequest request) {
+        request.setAttribute("message", e.getMessage());
+        request.setAttribute("stackTrace", e.getStackTrace());
+        request.setAttribute("exceptionName", e.getClass().getName());
+        return request;
     }
 }

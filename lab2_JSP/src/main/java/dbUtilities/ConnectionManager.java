@@ -2,15 +2,16 @@ package main.java.dbUtilities;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class ConnectionManager {
-    private String URL = "jdbc:mysql://localhost:3306/lab1_jdbc?useSSL=false";
-    private String username = "root";
-    private String password = "admin";
+    private String URL;
+    private String username;
+    private String password;
 
     private List<Connection> availableConns;
     private List<Connection> usedConns;
@@ -18,7 +19,7 @@ public class ConnectionManager {
 
     private static ConnectionManager instance = null;
 
-    private ConnectionManager(int initCounts) throws IOException, SQLException, ClassNotFoundException {
+    private ConnectionManager(int initCounts, InputStream is) throws IOException, SQLException, ClassNotFoundException {
         this.initCounts = initCounts;
 
         try {
@@ -27,6 +28,13 @@ public class ConnectionManager {
             System.out.println("ERROR: Creating driver failed");
             throw e;
         }
+
+        Properties property = new Properties();
+        property.load(is);
+        URL = property.getProperty("db.url");
+        username = property.getProperty("db.login");
+        password = property.getProperty("db.password");
+        is.close();
 
         availableConns = new ArrayList<>();
         usedConns = new ArrayList<>();
@@ -89,13 +97,13 @@ public class ConnectionManager {
         }
     }
 
-    public static ConnectionManager getInstance() throws SQLException, IOException, ClassNotFoundException {
-        return getInstance(8);
+    public static ConnectionManager getInstance(InputStream is) throws SQLException, IOException, ClassNotFoundException {
+        return getInstance(8, is);
     }
 
-    public static ConnectionManager getInstance(int initCounts) throws SQLException, IOException, ClassNotFoundException {
+    public static ConnectionManager getInstance(int initCounts, InputStream is) throws SQLException, IOException, ClassNotFoundException {
         if(instance == null) {
-            instance = new ConnectionManager(initCounts);
+            instance = new ConnectionManager(initCounts, is);
         }
         return instance;
     }

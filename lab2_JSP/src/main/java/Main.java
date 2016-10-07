@@ -4,13 +4,16 @@ import main.java.dao.*;
 import main.java.dbUtilities.ConnectionManager;
 import main.java.model.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class Main{
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        DAO<Integer, Director> directorDAO = new DirectorDAO();
+
+        /*DAO<Integer, Director> directorDAO = new DirectorDAO();
         DAO<Integer, Company> companyDAO = new CompanyDAO();
         DAO<Integer, Vacancy> vacancyDAO = new VacancyDAO();
 
@@ -34,7 +37,7 @@ public class Main{
 
         printDB(vacancyDAO);
 
-        ConnectionManager.getInstance().close();
+        ConnectionManager.getInstance().close();*/
     }
 
     public static <T> void printDB(DAO<Integer, T> dao) throws SQLException {

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Properties;
 
 public class ConnectionManager {
-    private String URL;
-    private String username;
-    private String password;
+    private String URL = "jdbc:mysql://localhost:3306/lab1_jdbc?useSSL=false";
+    private String username = "root";
+    private String password = "admin";
 
     private List<Connection> availableConns;
     private List<Connection> usedConns;
@@ -20,23 +20,11 @@ public class ConnectionManager {
 
     private ConnectionManager(int initCounts) throws IOException, SQLException, ClassNotFoundException {
         this.initCounts = initCounts;
-        Properties property = new Properties();
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("ERROR: Creating driver failed");
-            throw e;
-        }
-
-        try {
-            property.load(new FileInputStream("src/main/resources/db.properties"));
-
-            URL = property.getProperty("db.url");
-            username = property.getProperty("db.login");
-            password = property.getProperty("db.password");
-        } catch (IOException e) {
-            System.out.println("ERROR: Property file not found");
             throw e;
         }
 

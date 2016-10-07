@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Bogdan Kaftanatiy
-  Date: 04.10.2016
-  Time: 16:38
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
@@ -14,7 +7,8 @@
 <body>
     <div style="width: 900px; margin-left: auto; margin-right: auto">
         <h1>Add new vacancy</h1>
-        <form method="POST" action='VacancyController' name="frmAddVacancy">
+        <form method="POST" action='DBController' name="frmAddVacancy">
+            <input type="hidden" name="formName" value="vacancyForm">
             <table>
                 <tr>
                     <td>ID:</td>
@@ -22,7 +16,7 @@
                 </tr>
                 <tr>
                     <td>Company:</td>
-                    <td><input  type="text" name="company" value="<c:out value="${vacancy.company}" />" /></td>
+                    <td><input  type="text" name="companyID" value="<c:out value="${vacancy.companyID}" />" /></td>
                 </tr>
                 <tr>
                     <td>Position:</td>

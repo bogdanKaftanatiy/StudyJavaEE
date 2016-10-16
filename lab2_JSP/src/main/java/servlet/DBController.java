@@ -14,9 +14,6 @@ import java.sql.SQLException;
 
 @WebServlet(name = "DBController", urlPatterns = "/DBController")
 public class DBController extends HttpServlet {
-    private String INSERT_OR_EDIT_VACANCY = "/JSP/vacancy.jsp";
-    private String INSERT_OR_EDIT_COMPANY = "/JSP/company.jsp";
-    private String INSERT_OR_EDIT_DIRECTOR = "/JSP/director.jsp";
     private String DISPLAY_DB = "/JSP/displayDB.jsp";
     private String ERROR = "/JSP/errorPage.jsp";
 
@@ -161,6 +158,9 @@ public class DBController extends HttpServlet {
         String forward = "";
         String action = request.getParameter("action");
         String object = request.getParameter("object");
+        String INSERT_OR_EDIT_VACANCY = "/JSP/vacancy.jsp";
+        String INSERT_OR_EDIT_DIRECTOR = "/JSP/director.jsp";
+        String INSERT_OR_EDIT_COMPANY = "/JSP/company.jsp";
         if("displayDB".equalsIgnoreCase(action)){
             try {
                 request.setAttribute("allVacancy", vacancyDAO.getAllObjects());

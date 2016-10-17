@@ -1,8 +1,18 @@
 package entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "companies")
+@NamedQuery(name = "Company.getAll", query = "SELECT c FROM Company c")
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "name", length = 128)
     private String name;
+    @OneToOne(optional = false, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "directorID", unique = true, nullable = false)
     private Director director;
 
     public Company() {

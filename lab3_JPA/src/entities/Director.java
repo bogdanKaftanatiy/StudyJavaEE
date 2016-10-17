@@ -1,9 +1,17 @@
 package entities;
 
-public class Director {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "directors")
+@NamedQuery(name = "Director.getAll", query = "SELECT d FROM Director d")
+public class Director {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "firstname", length = 64)
     private String firstName;
+    @Column(name = "surname", length = 64)
     private String surname;
 
     public Director() {

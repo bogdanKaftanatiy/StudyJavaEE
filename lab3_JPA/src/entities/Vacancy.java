@@ -1,14 +1,35 @@
 package entities;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "vacancies")
+@NamedQuery(name = "Vacancy.getAll", query = "SELECT v FROM Vacancy v")
 public class Vacancy {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "companyID", nullable = false)
     private Company company;
+    @Column(name = "position")
     private String position;
+    @Column(name = "requirements")
     private String requirements;
+    @Column(name = "description")
     private String description;
+    @Column(name = "email")
     private String email;
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "vacancy_candidate",
+            joinColumns = @JoinColumn(name = "vacancyID", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "candidateID", referencedColumnName = "id"))
+    private List<Candidate> candidates;
 
     public Vacancy() {
+        candidates = new ArrayList<Candidate>();
     }
 
     public Vacancy(int id, Company company, String position, String requirements, String description, String email) {
@@ -18,6 +39,7 @@ public class Vacancy {
         this.requirements = requirements;
         this.description = description;
         this.email = email;
+        this.candidates = new ArrayList<Candidate>();
     }
 
     public Vacancy(Company company, String position, String requirements, String description, String email) {
@@ -26,6 +48,7 @@ public class Vacancy {
         this.requirements = requirements;
         this.description = description;
         this.email = email;
+        this.candidates = new ArrayList<Candidate>();
     }
 
     public int getId() {
@@ -74,6 +97,29 @@ public class Vacancy {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Candidate> getCandidates() {
+        return candidates;
+    }
+
+    public void setCandidates(List<Candidate> candidates) {
+        this.candidates = candidates;
+    }
+
+    public void addCandidate(Candidate c) {
+        c.addVacancy(this);
+        candidates.add(c);
+    }
+
+    public void removeCancidate(int id) {
+        for (Candidate c : candidates) {
+            if(c.getId() == id) {
+                candidates.remove(c);
+                c.removeVacancy(this.id);
+                return;
+            }
+        }
     }
 
     @Override

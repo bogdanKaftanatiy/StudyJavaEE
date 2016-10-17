@@ -134,7 +134,8 @@ public class Vacancy {
         if (!position.equals(vacancy.position)) return false;
         if (!requirements.equals(vacancy.requirements)) return false;
         if (description != null ? !description.equals(vacancy.description) : vacancy.description != null) return false;
-        return email.equals(vacancy.email);
+        if (!email.equals(vacancy.email)) return false;
+        return candidates.equals(vacancy.candidates);
 
     }
 
@@ -146,6 +147,7 @@ public class Vacancy {
         result = 31 * result + requirements.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + email.hashCode();
+        result = 31 * result + candidates.hashCode();
         return result;
     }
 

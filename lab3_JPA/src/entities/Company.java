@@ -22,11 +22,13 @@ public class Company {
         this.id = id;
         this.name = name;
         this.director = director;
+        this.director.setCompany(this);
     }
 
     public Company(String name, Director director) {
         this.name = name;
         this.director = director;
+        this.director.setCompany(this);
     }
 
     public int getId() {
@@ -51,6 +53,7 @@ public class Company {
 
     public void setDirector(Director director) {
         this.director = director;
+        this.director.setCompany(this);
     }
 
     @Override

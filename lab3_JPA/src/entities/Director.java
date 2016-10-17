@@ -13,6 +13,8 @@ public class Director {
     private String firstName;
     @Column(name = "surname", length = 64)
     private String surname;
+    @OneToOne(mappedBy = "director")
+    private Company company;
 
     public Director() {
     }
@@ -52,6 +54,14 @@ public class Director {
         this.surname = surname;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,7 +71,8 @@ public class Director {
 
         if (id != director.id) return false;
         if (!firstName.equals(director.firstName)) return false;
-        return surname.equals(director.surname);
+        if (!surname.equals(director.surname)) return false;
+        return company != null ? company.equals(director.company) : director.company == null;
 
     }
 
@@ -70,6 +81,7 @@ public class Director {
         int result = id;
         result = 31 * result + firstName.hashCode();
         result = 31 * result + surname.hashCode();
+        result = 31 * result + (company != null ? company.hashCode() : 0);
         return result;
     }
 

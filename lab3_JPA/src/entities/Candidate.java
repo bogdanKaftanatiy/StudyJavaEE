@@ -115,7 +115,8 @@ public class Candidate {
         if (!firstname.equals(candidate.firstname)) return false;
         if (!surname.equals(candidate.surname)) return false;
         if (!email.equals(candidate.email)) return false;
-        return cvURI.equals(candidate.cvURI);
+        if (cvURI != null ? !cvURI.equals(candidate.cvURI) : candidate.cvURI != null) return false;
+        return vacancies.equals(candidate.vacancies);
 
     }
 
@@ -125,7 +126,8 @@ public class Candidate {
         result = 31 * result + firstname.hashCode();
         result = 31 * result + surname.hashCode();
         result = 31 * result + email.hashCode();
-        result = 31 * result + cvURI.hashCode();
+        result = 31 * result + (cvURI != null ? cvURI.hashCode() : 0);
+        result = 31 * result + vacancies.hashCode();
         return result;
     }
 

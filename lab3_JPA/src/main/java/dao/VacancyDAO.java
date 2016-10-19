@@ -9,7 +9,13 @@ public class VacancyDAO extends DAO<Integer, Vacancy> {
     @Override
     public List<Vacancy> getAllObjects() {
         TypedQuery<Vacancy> namedQuery = em.createNamedQuery("Vacancy.getAll", Vacancy.class);
-        return namedQuery.getResultList();
+        List<Vacancy> result = namedQuery.getResultList();
+
+        for (Vacancy v : result) {
+            em.refresh(v);
+        }
+
+        return result;
     }
 
     @Override

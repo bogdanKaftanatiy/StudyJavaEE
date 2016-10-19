@@ -1,13 +1,14 @@
 package entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "vacancies")
 @NamedQuery(name = "Vacancy.getAll", query = "SELECT v FROM Vacancy v")
-public class Vacancy {
+public class Vacancy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

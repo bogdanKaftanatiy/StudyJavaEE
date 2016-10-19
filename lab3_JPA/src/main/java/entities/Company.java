@@ -1,11 +1,12 @@
 package entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "companies")
 @NamedQuery(name = "Company.getAll", query = "SELECT c FROM Company c")
-public class Company {
+public class Company implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -52,6 +53,7 @@ public class Company {
     }
 
     public void setDirector(Director director) {
+        this.director.setCompany(null);
         this.director = director;
         this.director.setCompany(this);
     }

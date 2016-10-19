@@ -9,7 +9,13 @@ public class CompanyDAO extends DAO<Integer, Company> {
     @Override
     public List<Company> getAllObjects() {
         TypedQuery<Company> namedQuery = em.createNamedQuery("Company.getAll", Company.class);
-        return namedQuery.getResultList();
+        List<Company> result = namedQuery.getResultList();
+
+        for (Company c : result) {
+            em.refresh(c);
+        }
+
+        return result;
     }
 
     @Override

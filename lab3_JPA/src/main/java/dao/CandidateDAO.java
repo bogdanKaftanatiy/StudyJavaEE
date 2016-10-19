@@ -9,7 +9,13 @@ public class CandidateDAO extends DAO<Integer, Candidate> {
     @Override
     public List<Candidate> getAllObjects() {
         TypedQuery<Candidate> namedQuery = em.createNamedQuery("Candidate.getAll", Candidate.class);
-        return namedQuery.getResultList();
+        List<Candidate> result = namedQuery.getResultList();
+
+        for (Candidate c : result) {
+            em.refresh(c);
+        }
+
+        return result;
     }
 
     @Override

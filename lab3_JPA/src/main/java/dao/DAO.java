@@ -20,12 +20,15 @@ public abstract class DAO<KeyT, DataT> {
     public void updateObject(DataT object) {
         em.getTransaction().begin();
         em.merge(object);
+        em.flush();
+        em.getEntityManagerFactory().getCache().evictAll();
         em.getTransaction().commit();
     }
 
     public void deleteObject(KeyT id) {
         em.getTransaction().begin();
         em.remove(getObject(id));
+        em.flush();
         em.getTransaction().commit();
     }
 }

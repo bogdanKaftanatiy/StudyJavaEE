@@ -22,11 +22,4 @@ public class CandidateDAO extends DAO<Integer, Candidate> {
     public Candidate getObject(Integer id) {
         return em.find(Candidate.class, id);
     }
-
-    @Override
-    public void addObject(Candidate object) {
-        em.getTransaction().begin();
-        Candidate candidateFromDB = em.merge(object);
-        em.getTransaction().commit();
-    }
 }

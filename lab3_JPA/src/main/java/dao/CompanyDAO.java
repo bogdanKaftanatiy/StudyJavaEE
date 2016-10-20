@@ -22,11 +22,4 @@ public class CompanyDAO extends DAO<Integer, Company> {
     public Company getObject(Integer id) {
         return em.find(Company.class, id);
     }
-
-    @Override
-    public void addObject(Company object) {
-        em.getTransaction().begin();
-        Company companyFromDB = em.merge(object);
-        em.getTransaction().commit();
-    }
 }

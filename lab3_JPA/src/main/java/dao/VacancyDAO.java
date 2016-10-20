@@ -22,11 +22,4 @@ public class VacancyDAO extends DAO<Integer, Vacancy> {
     public Vacancy getObject(Integer id) {
         return em.find(Vacancy.class, id);
     }
-
-    @Override
-    public void addObject(Vacancy object) {
-        em.getTransaction().begin();
-        Vacancy vacancyFromDB = em.merge(object);
-        em.getTransaction().commit();
-    }
 }

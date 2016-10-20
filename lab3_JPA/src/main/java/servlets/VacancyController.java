@@ -31,9 +31,7 @@ public class VacancyController extends HttpServlet {
         try {
             companyID = Integer.parseInt(companyStr);
         } catch (NumberFormatException e) {
-            request.setAttribute("stackTrace", e.getStackTrace());
-            request.setAttribute("message", e.getMessage());
-            request.setAttribute("exceptionName", e.getClass().getName());
+            request.setAttribute("e", e);
             request.getRequestDispatcher("/JSP/errorPage.jsp").forward(request, response);
         }
 

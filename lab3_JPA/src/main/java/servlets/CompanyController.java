@@ -28,9 +28,7 @@ public class CompanyController extends HttpServlet {
         try {
             directorID = Integer.parseInt(dirIdStr);
         } catch (NumberFormatException e) {
-            request.setAttribute("message", e.getMessage());
-            request.setAttribute("stackTrace", e.getStackTrace());
-            request.setAttribute("exceptionName", e.getClass().getName());
+            request.setAttribute("e", e);
             request.getRequestDispatcher("/JSP/errorPage.jsp").forward(request, response);
         }
         Director director = new DirectorDAO().getObject(directorID);

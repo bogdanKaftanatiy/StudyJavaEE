@@ -22,11 +22,4 @@ public class DirectorDAO extends DAO<Integer, Director> {
     public Director getObject(Integer id) {
         return em.find(Director.class, id);
     }
-
-    @Override
-    public void addObject(Director object) {
-        em.getTransaction().begin();
-        Director directorFromDB = em.merge(object);
-        em.getTransaction().commit();
-    }
 }

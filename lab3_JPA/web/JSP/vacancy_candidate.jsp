@@ -7,15 +7,15 @@
 <body>
 <div style="width: 800px; margin-left: auto; margin-right: auto">
     <h1>Add new candidate to vacancy</h1>
-    <form method="POST" action='!!!!!!' name="frmAddDirector">
+    <form method="POST" action='VacancyCandidateLinkController' name="frmAddDirector">
         <table>
             <tr>
                 <td>Vacancy ID:</td>
-                <td><input type="text" readonly="readonly" name="id" value="<c:out value="${director.id}" />" /></td>
+                <td><input type="text" name="vacancyID" value="<c:out value="${vacancyID}" />" /></td>
             </tr>
             <tr>
                 <td>Candidate ID:</td>
-                <td><input type="text" readonly="readonly" name="id" value="<c:out value="${director.id}" />" /></td>
+                <td><input type="text" name="candidateID" value="<c:out value="${candidateID}" />" /></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="Submit" /></td>

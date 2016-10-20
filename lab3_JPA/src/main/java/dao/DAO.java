@@ -15,13 +15,16 @@ public abstract class DAO<KeyT, DataT> {
 
     public abstract DataT getObject(KeyT id);
 
-    public abstract void addObject(DataT object);
+    public void addObject(DataT object) {
+        em.getTransaction().begin();
+        em.merge(object);
+        em.getTransaction().commit();
+    }
 
     public void updateObject(DataT object) {
         em.getTransaction().begin();
         em.merge(object);
         em.flush();
-        em.getEntityManagerFactory().getCache().evictAll();
         em.getTransaction().commit();
     }
 

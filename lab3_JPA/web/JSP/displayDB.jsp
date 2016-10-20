@@ -95,7 +95,7 @@
         <tr>
             <th>Vacancy Id</th>
             <th>Candidate ID</th>
-            <th colspan=2>Action</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -104,14 +104,13 @@
                 <tr>
                     <td><c:out value="${vacancy.id}" /></td>
                     <td><c:out value="${candidate.id}" /></td>
-                    <td><a href="DBController?action=edit&object=director&id=<c:out value="${director.id}"/>">Update</a></td>
-                    <td><a href="DBController?action=delete&object=director&id=<c:out value="${director.id}"/>">Delete</a></td>
+                    <td><a href="VacancyCandidateLinkController?action=delete&vacID=<c:out value="${vacancy.id}"/>&canID=<c:out value="${candidate.id}"/>">Delete</a></td>
                 </tr>
             </c:forEach>
         </c:forEach>
         </tbody>
     </table>
-    <p><a href="DBController?action=insert&object=director">Add Vacancy-Candidate</a></p>
+    <p><a href="VacancyCandidateLinkController?action=insert">Add Vacancy-Candidate</a></p>
     <br />
     <h1>Director</h1>
     <table border=1>

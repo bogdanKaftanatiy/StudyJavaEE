@@ -5,6 +5,8 @@ import dao.DAO;
 import dao.VacancyDAO;
 import entities.Candidate;
 import entities.Vacancy;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,15 +14,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 @WebServlet(name = "VacancyCandidateLinkController", urlPatterns = "/VacancyCandidateLinkController")
 public class VacancyCandidateLinkController extends HttpServlet {
+    private static Logger logger;
     DAO<Integer, Vacancy> vacancyDAO;
     DAO<Integer, Candidate> candidateDAO;
 
-    public VacancyCandidateLinkController() {
-        vacancyDAO = new VacancyDAO();
-        candidateDAO = new CandidateDAO();
+    @Override
+    public void init() throws ServletException {
+        super.init();
+
+        Properties properties = new Properties();
+        try {
+            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PropertyConfigurator.configure(properties);
+        logger = Logger.getRootLogger();
+
+        vacancyDAO = new VacancyDAO(logger);
+        candidateDAO = new CandidateDAO(logger);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,6 +49,7 @@ public class VacancyCandidateLinkController extends HttpServlet {
             vacancyID = Integer.parseInt(vacancyStr);
             candidateID = Integer.parseInt(candidateStr);
         } catch (NumberFormatException e) {
+            logger.error("Error parsing vacancy or director ID: " + e);
             request.setAttribute("e", e);
             request.getRequestDispatcher("/JSP/errorPage.jsp").forward(request, response);
         }
@@ -40,7 +57,9 @@ public class VacancyCandidateLinkController extends HttpServlet {
         Vacancy vacancy = vacancyDAO.getObject(vacancyID);
         Candidate candidate = candidateDAO.getObject(candidateID);
         if (vacancy == null || candidate == null) {
-            request.setAttribute("e", new IllegalArgumentException("Object with such ID not found"));
+            Exception e = new IllegalArgumentException("Object with such ID not found");
+            logger.error("Error find object: ", e);
+            request.setAttribute("e", e);
             request.getRequestDispatcher("/JSP/errorPage.jsp").forward(request, response);
         }
 

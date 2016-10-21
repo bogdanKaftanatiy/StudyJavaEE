@@ -1,11 +1,16 @@
 package dao;
 
 import entities.Director;
+import org.apache.log4j.Logger;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class DirectorDAO extends DAO<Integer, Director> {
+    public DirectorDAO(Logger l) {
+        super(l);
+    }
+
     @Override
     public List<Director> getAllObjects() {
         TypedQuery<Director> namedQuery = em.createNamedQuery("Director.getAll", Director.class);
@@ -15,11 +20,14 @@ public class DirectorDAO extends DAO<Integer, Director> {
             em.refresh(d);
         }
 
+        logger.info("Received all objects from table 'Directors'");
+
         return result;
     }
 
     @Override
     public Director getObject(Integer id) {
+        logger.info("Get director with id = " + id);
         return em.find(Director.class, id);
     }
 }

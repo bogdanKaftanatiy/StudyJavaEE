@@ -5,6 +5,8 @@ import dao.DAO;
 import dao.DirectorDAO;
 import entities.Company;
 import entities.Director;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,13 +14,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 @WebServlet(name = "CompanyController", urlPatterns = "/CompanyController")
 public class CompanyController extends HttpServlet {
+    private static Logger logger;
     private DAO<Integer, Company> companyDAO;
 
-    public CompanyController() {
-        companyDAO = new CompanyDAO();
+    @Override
+    public void init() throws ServletException {
+        super.init();
+
+        Properties properties = new Properties();
+        try {
+            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PropertyConfigurator.configure(properties);
+        logger = Logger.getRootLogger();
+
+        companyDAO = new CompanyDAO(logger);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,10 +44,11 @@ public class CompanyController extends HttpServlet {
         try {
             directorID = Integer.parseInt(dirIdStr);
         } catch (NumberFormatException e) {
+            logger.error("Error parsing director ID: " + e);
             request.setAttribute("e", e);
             request.getRequestDispatcher("/JSP/errorPage.jsp").forward(request, response);
         }
-        Director director = new DirectorDAO().getObject(directorID);
+        Director director = new DirectorDAO(logger).getObject(directorID);
         String companyID = request.getParameter("id");
         if(companyID == null || companyID.isEmpty()) {
             companyDAO.addObject(new Company(name, director));

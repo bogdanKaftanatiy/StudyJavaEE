@@ -7,10 +7,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class VacancyDAO extends DAO<Integer, Vacancy> {
-    public VacancyDAO(Logger l) {
-        super(l);
-    }
-
     @Override
     public List<Vacancy> getAllObjects() {
         TypedQuery<Vacancy> namedQuery = em.createNamedQuery("Vacancy.getAll", Vacancy.class);

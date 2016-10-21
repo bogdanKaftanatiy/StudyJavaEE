@@ -7,12 +7,11 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 public abstract class DAO<KeyT, DataT> {
-    protected Logger logger;
+    protected final static Logger logger = Logger.getLogger(DAO.class);
     protected EntityManager em;
 
-    public DAO(Logger l) {
+    public DAO() {
         em = Persistence.createEntityManagerFactory("vacancyPU").createEntityManager();
-        logger = l;
     }
 
     public abstract List<DataT> getAllObjects();

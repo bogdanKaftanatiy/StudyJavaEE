@@ -7,10 +7,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class DirectorDAO extends DAO<Integer, Director> {
-    public DirectorDAO(Logger l) {
-        super(l);
-    }
-
     @Override
     public List<Director> getAllObjects() {
         TypedQuery<Director> namedQuery = em.createNamedQuery("Director.getAll", Director.class);

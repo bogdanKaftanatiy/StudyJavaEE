@@ -3,7 +3,6 @@ package servlets;
 import dao.*;
 import entities.*;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,11 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Properties;
 
 @WebServlet(name = "DBController", urlPatterns = "/DBController")
 public class DBController extends HttpServlet {
-    private static Logger logger;
+    private final static Logger logger = Logger.getLogger(DBController.class);
 
     private String DISPLAY_DB = "/JSP/displayDB.jsp";
 
@@ -29,19 +27,10 @@ public class DBController extends HttpServlet {
     public void init() throws ServletException {
         super.init();
 
-        Properties properties = new Properties();
-        try {
-            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PropertyConfigurator.configure(properties);
-        logger = Logger.getRootLogger();
-
-        directorDAO = new DirectorDAO(logger);
-        companyDAO = new CompanyDAO(logger);
-        vacancyDAO = new VacancyDAO(logger);
-        candidateDAO = new CandidateDAO(logger);
+        directorDAO = new DirectorDAO();
+        companyDAO = new CompanyDAO();
+        vacancyDAO = new VacancyDAO();
+        candidateDAO = new CandidateDAO();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

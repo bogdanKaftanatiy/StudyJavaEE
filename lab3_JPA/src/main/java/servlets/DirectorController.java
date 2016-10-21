@@ -5,7 +5,6 @@ import dao.DAO;
 import dao.DirectorDAO;
 import entities.Director;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +12,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Properties;
 
 @WebServlet(name = "DirectorController", urlPatterns = "/DirectorController")
 public class DirectorController extends HttpServlet {
-    private static Logger logger;
+    private final static Logger logger = Logger.getLogger(DirectorController.class);
     private DAO<Integer, Director> directorDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
 
-        Properties properties = new Properties();
-        try {
-            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PropertyConfigurator.configure(properties);
-        logger = Logger.getRootLogger();
-
-        directorDAO = new DirectorDAO(logger);
+        directorDAO = new DirectorDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,7 +41,7 @@ public class DirectorController extends HttpServlet {
             int companyID;
             if(companyStr != null && !companyStr.isEmpty()) {
                 companyID = Integer.parseInt(companyStr);
-                addDirector.setCompany(new CompanyDAO(logger).getObject(companyID));
+                addDirector.setCompany(new CompanyDAO().getObject(companyID));
             }
 
             directorDAO.updateObject(addDirector);

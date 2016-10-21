@@ -7,10 +7,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class CompanyDAO extends DAO<Integer, Company> {
-    public CompanyDAO(Logger l) {
-        super(l);
-    }
-
     @Override
     public List<Company> getAllObjects() {
         TypedQuery<Company> namedQuery = em.createNamedQuery("Company.getAll", Company.class);

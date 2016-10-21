@@ -4,7 +4,6 @@ import dao.CandidateDAO;
 import dao.DAO;
 import entities.Candidate;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,27 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Properties;
 
 @WebServlet(name = "CandidateController", urlPatterns = "/CandidateController")
 public class CandidateController extends HttpServlet {
-    private static Logger logger;
+    private final static Logger logger = Logger.getLogger(CandidateController.class);
     private DAO<Integer, Candidate> candidateDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
 
-        Properties properties = new Properties();
-        try {
-            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PropertyConfigurator.configure(properties);
-        logger = Logger.getRootLogger();
-
-        candidateDAO = new CandidateDAO(logger);
+        candidateDAO = new CandidateDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

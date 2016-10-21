@@ -5,7 +5,6 @@ import dao.DAO;
 import dao.VacancyDAO;
 import entities.Vacancy;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,27 +12,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Properties;
 
 @WebServlet(name = "VacancyController", urlPatterns = "/VacancyController")
 public class VacancyController extends HttpServlet {
-    private static Logger logger;
+    private final static Logger logger = Logger.getLogger(VacancyController.class);
     private DAO<Integer, Vacancy> vacancyDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
 
-        Properties properties = new Properties();
-        try {
-            properties.load(getServletContext().getResourceAsStream("/WEB-INF/log4j.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        PropertyConfigurator.configure(properties);
-        logger = Logger.getRootLogger();
-
-        vacancyDAO = new VacancyDAO(logger);
+        vacancyDAO = new VacancyDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,11 +43,11 @@ public class VacancyController extends HttpServlet {
 
         String vacancyId = request.getParameter("id");
         if (vacancyId == null || vacancyId.isEmpty()) {
-            vacancyDAO.addObject(new Vacancy(new CompanyDAO(logger).getObject(companyID), position, requirements, description, email));
+            vacancyDAO.addObject(new Vacancy(new CompanyDAO().getObject(companyID), position, requirements, description, email));
         } else {
             int id = Integer.parseInt(vacancyId);
             Vacancy vacancy = vacancyDAO.getObject(id);
-            vacancy.setCompany(new CompanyDAO(logger).getObject(companyID));
+            vacancy.setCompany(new CompanyDAO().getObject(companyID));
             vacancy.setPosition(position);
             vacancy.setRequirements(requirements);
             vacancy.setDescription(description);

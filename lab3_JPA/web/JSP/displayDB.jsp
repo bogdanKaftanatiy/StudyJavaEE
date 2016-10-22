@@ -5,7 +5,7 @@
     <title>Display DB</title>
 </head>
 <body>
-<div style="width: 50%; float: left;">
+<div style="width: 49%; float: left;">
     <h1>Vacancy</h1>
     <table border=1>
         <thead>
@@ -88,7 +88,7 @@
     </table>
     <p><a href="CompanyController?action=insert">Add Company</a></p>
 </div>
-<div style="width: 50%; float: right;">
+<div style="width: 49%; float: right;">
     <h1>Vacancy_Candidate</h1>
     <table border=1>
         <thead>

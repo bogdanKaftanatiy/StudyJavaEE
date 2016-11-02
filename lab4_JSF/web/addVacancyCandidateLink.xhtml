@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Add new link</title>
+</h:head>
+
+<h:body>
+    <h1>Add new link</h1>
+    <h:form>
+        <table>
+            <tr>
+                <td>Vacancy ID: </td>
+                <td>
+                    <h:inputText id="vacancyID" value="#{linkBean.currentVacancyID}">
+                        <f:validator validatorId="validators.vacancyID" />
+                    </h:inputText>
+                    <h:message for="vacancyID" style="color: red"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Candidate ID: </td>
+                <td>
+                    <h:inputText id="candidateID" value="#{linkBean.currentCandidateID}">
+                        <f:validator validatorId="validators.candidateID" />
+                    </h:inputText>
+                    <h:message for="candidateID" style="color: red"/>
+                </td>
+            </tr>
+        </table>
+        <h:commandButton value="Add" action="#{linkBean.insert()}"/>
+    </h:form>
+</h:body>
+
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+   <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+   <div style="width: 60%; float: left;">
+      <h:form>
+         <h2>Vacancies</h2>
+         <h:dataTable value="#{vacancyBean.vacancyList}" var="vacancy"
+             styleClass="table"
+             headerClass="table-header"
+             rowClasses="table-odd-row, table-even-row">
+            <h:column>
+               <f:facet name="header">ID</f:facet>
+               #{vacancy.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Company ID</f:facet>
+               #{vacancy.company.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Position</f:facet>
+               #{vacancy.position}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Requirements</f:facet>
+               #{vacancy.requirements}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Description</f:facet>
+               #{vacancy.description}
+            </h:column>
+            <h:column>
+               <f:facet name="header">E-mail</f:facet>
+               #{vacancy.email}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Action</f:facet>
+               <h:commandLink value="Remove" action="#{vacancyBean.remove(vacancy)}"/>
+               |
+               <h:commandLink value="Edit" action="#{vacancyBean.toEdit(vacancy)}"/>
+            </h:column>
+         </h:dataTable>
+         <h:link outcome="#{vacancyBean.toAdd()}" value="Add new vacancy"/>
+      </h:form>
+      <h:form>
+         <h2>Candidates</h2>
+         <h:dataTable value="#{candidateBean.candidateList}" var="candidate"
+             styleClass="table"
+             headerClass="table-header"
+             rowClasses="table-odd-row, table-even-row">
+            <h:column>
+               <f:facet name="header">ID</f:facet>
+               #{candidate.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">First name</f:facet>
+               #{candidate.firstname}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Surname</f:facet>
+               #{candidate.surname}
+            </h:column>
+            <h:column>
+               <f:facet name="header">E-mail</f:facet>
+               #{candidate.email}
+            </h:column>
+            <h:column>
+               <f:facet name="header">CV URI</f:facet>
+               #{candidate.cvURI}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Action</f:facet>
+               <h:commandLink value="Remove" action="#{candidateBean.remove(candidate)}"/>
+               |
+               <h:commandLink value="Edit" action="#{candidateBean.toEdit(candidate)}"/>
+            </h:column>
+         </h:dataTable>
+         <h:link outcome="#{candidateBean.toAdd()}" value="Add new candidate"/>
+      </h:form>
+      <h:form>
+         <h2>Companies</h2>
+         <h:dataTable value="#{companyBean.companyList}" var="company"
+             styleClass="table"
+             headerClass="table-header"
+             rowClasses="table-odd-row, table-even-row">
+            <h:column>
+               <f:facet name="header">ID</f:facet>
+               #{company.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Name</f:facet>
+               #{company.name}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Director ID</f:facet>
+               #{company.director.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Action</f:facet>
+               <h:commandLink value="Remove" action="#{companyBean.remove(company)}"/>
+               |
+               <h:commandLink value="Edit" action="#{companyBean.toEdit(company)}"/>
+            </h:column>
+         </h:dataTable>
+         <h:link outcome="#{companyBean.toAdd()}" value="Add new company"/>
+      </h:form>
+   </div>
+   <div style="width: 39%; float: right;">
+      <h:form>
+         <h2>Vacancy-Candidate</h2>
+         <table class="table">
+            <thead>
+            <tr>
+               <th class="table-header">Vacancy ID</th>
+               <th class="table-header">Candidate ID</th>
+               <th class="table-header">Action</th>
+            </tr>
+            </thead>
+            <ui:repeat value="#{vacancyBean.vacancyList}" var="vacancy">
+               <ui:repeat value="#{vacancy.candidates}" var="candidate">
+                  <tr class="table-row">
+                     <td>#{vacancy.id}</td>
+                     <td>#{candidate.id}</td>
+                     <td><h:commandLink action="#{linkBean.remove(vacancy, candidate)}" value="Remove"/> </td>
+                  </tr>
+               </ui:repeat>
+            </ui:repeat>
+         </table>
+         <h:link outcome="#{linkBean.toAdd()}" value="Add new link" />
+      </h:form>
+      <h:form>
+         <h2>Directors</h2>
+         <h:dataTable value="#{directorBean.directorList}" var="director"
+            styleClass="table"
+            headerClass="table-header"
+            rowClasses="table-odd-row, table-even-row">
+            <h:column>
+               <f:facet name="header">ID</f:facet>
+               #{director.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">First name</f:facet>
+               #{director.firstname}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Surname</f:facet>
+               #{director.surname}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Company ID</f:facet>
+               #{director.company.id}
+            </h:column>
+            <h:column>
+               <f:facet name="header">Action</f:facet>
+               <h:commandLink value="Remove" action="#{directorBean.remove(director)}"/>
+                |
+               <h:commandLink value="Edit" action="#{directorBean.toEdit(director)}"/>
+            </h:column>
+         </h:dataTable>
+         <h:link outcome="#{directorBean.toAdd()}" value="Add new director"/>
+      </h:form>
+   </div>
+</h:body>
+</html>

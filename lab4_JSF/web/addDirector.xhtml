@@ -4,7 +4,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:H="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:H="http://java.sun.com/jsf/html"
+      xmlns:tp="http://java.sun.com/jsf/composite/customTag">
 
 <h:head>
     <title>Add director</title>
@@ -13,18 +14,13 @@
 <h:body>
     <h1>Add new director</h1>
     <h:form>
-        <table>
-            <tr>
-                <td>First name: </td>
-                <td><h:inputText value="#{directorBean.currentDirector.firstname}"/></td>
-            </tr>
-            <tr>
-                <td>Surname: </td>
-                <td><h:inputText value="#{directorBean.currentDirector.surname}"/></td>
-            </tr>
-
-        </table>
-        <h:commandButton value="Add" action="#{directorBean.insert()}"/>
+        <tp:AddDirectorTag
+            nameLabel="First name:"
+            nameValue="#{directorBean.currentDirector.firstname}"
+            surnameLabel="Surname: "
+            surnameValue="#{directorBean.currentDirector.surname}"
+            addButtonValue="Add"
+            addButtonAction="#{directorBean.insert}" />
     </h:form>
 </h:body>
 

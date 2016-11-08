@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:H="http://java.sun.com/jsf/html"
+      xmlns:tp="http://java.sun.com/jsf/composite/customTag">
+
+<h:head>
+    <title>Add director</title>
+</h:head>
+
+<h:body>
+    <h1>Add new director</h1>
+    <h:form>
+        <tp:AddDirectorTag
+            nameLabel="First name:"
+            nameValue="#{directorBean.currentDirector.firstname}"
+            surnameLabel="Surname: "
+            surnameValue="#{directorBean.currentDirector.surname}"
+            addButtonValue="Add"
+            addButtonAction="#{directorBean.insert}" />
+    </h:form>
+</h:body>
+
+</html>

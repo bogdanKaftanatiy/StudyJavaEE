@@ -1,0 +1,36 @@
+.table{
+    border-collapse:collapse;
+}
+
+.table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 #E5E5E5;
+    border-bottom:1px solid #BBBBBB;
+    padding:16px;
+}
+
+.table-odd-row{
+    text-align:center;
+    background:none repeat scroll 0 0 #FFFFFF;
+    border-top:1px solid #BBBBBB;
+}
+
+.table-even-row{
+    text-align:center;
+    background:none repeat scroll 0 0 #F9F9F9;
+    border-top:1px solid #BBBBBB;
+}
+
+.table-row {
+    text-align:center;
+    border-top:1px solid #BBBBBB;
+}
+
+.table-row:nth-child(2n) {
+    background:none repeat scroll 0 0 #F9F9F9;
+}
+
+.table-row:nth-child(2n + 1) {
+    background:none repeat scroll 0 0 #FFFFFF;
+
+}

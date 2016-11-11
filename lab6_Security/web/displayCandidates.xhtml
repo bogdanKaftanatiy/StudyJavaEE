@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Candidates</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <h2>Candidates</h2>
+        <h:dataTable value="#{candidateBean.candidateList}" var="candidate"
+                     styleClass="table"
+                     headerClass="table-header"
+                     rowClasses="table-odd-row, table-even-row">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{candidate.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">First name</f:facet>
+                #{candidate.firstname}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Surname</f:facet>
+                #{candidate.surname}
+            </h:column>
+            <h:column>
+                <f:facet name="header">E-mail</f:facet>
+                #{candidate.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Year experience</f:facet>
+                #{candidate.yearExperience}
+            </h:column>
+            <h:column>
+                <f:facet name="header">CV URI</f:facet>
+                #{candidate.cvURI}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <h:commandLink value="Remove" action="#{candidateBean.remove(candidate)}"/>
+                |
+                <h:commandLink value="Edit" action="#{candidateBean.toEdit(candidate)}"/>
+            </h:column>
+        </h:dataTable>
+        <h:link outcome="#{candidateBean.toAdd()}" value="Add new candidate"/>
+    </h:form>
+</h:body>
+
+</html>

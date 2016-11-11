@@ -2,12 +2,14 @@ package beans;
 
 import entities.Company;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CompanyBean extends AbstractDAO<Company> {
+
     @Override
     public List<Company> getAllObjects() {
         TypedQuery<Company> namedQuery = em.createNamedQuery("Company.getAll", Company.class);

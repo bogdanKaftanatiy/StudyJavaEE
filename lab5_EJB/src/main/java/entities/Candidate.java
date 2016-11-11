@@ -4,16 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-/**
- * Created by Bogdan Kaftanatiy on 07.11.2016.
- */
 @Entity
 @Table(name = "candidates", schema = "lab3_jpa")
 @NamedQuery(name = "Candidate.getAll", query = "SELECT c FROM Candidate c")
 public class Candidate implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "firstname")
     private String firstname;
@@ -23,29 +21,43 @@ public class Candidate implements Serializable {
     private String email;
     @Column(name = "cvURI")
     private String cvURI;
-    @ManyToMany(mappedBy = "candidates")
+    @Column(name = "yearExperiance")
+    private int yearExperience;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "candidates")
     private List<Vacancy> vacancies;
 
     public Candidate() {
         vacancies = new ArrayList<Vacancy>();
     }
 
-    public Candidate(int id, String firstname, String surname, String email, String cvURI) {
+    public Candidate(int id, String firstname, String surname, String email, int yearExperience, String cvURI) {
         this.id = id;
         this.firstname = firstname;
         this.surname = surname;
         this.email = email;
+        this.yearExperience = yearExperience;
         this.cvURI = cvURI;
         this.vacancies = new ArrayList<Vacancy>();
     }
 
-    public Candidate(String firstname, String surname, String email, String cvURI) {
+    public Candidate(String firstname, String surname, String email, int yearExperience, String cvURI) {
         this.firstname = firstname;
         this.surname = surname;
         this.email = email;
+        this.yearExperience = yearExperience;
         this.cvURI = cvURI;
         this.vacancies = new ArrayList<Vacancy>();
     }
+
+
+    public boolean reviewOffer() {
+        if(new Random().nextInt(2) != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public int getId() {
         return id;
@@ -77,6 +89,14 @@ public class Candidate implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getYearExperience() {
+        return yearExperience;
+    }
+
+    public void setYearExperience(int yearExperience) {
+        this.yearExperience = yearExperience;
     }
 
     public String getCvURI() {

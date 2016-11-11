@@ -9,7 +9,7 @@ import java.util.List;
 @NamedQuery(name = "Vacancy.getAll", query = "SELECT v FROM Vacancy v")
 public class Vacancy {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "companyID", nullable = false)
@@ -17,7 +17,7 @@ public class Vacancy {
     @Column(name = "position")
     private String position;
     @Column(name = "requirements")
-    private String requirements;
+    private int requirements;
     @Column(name = "description")
     private String description;
     @Column(name = "email")
@@ -32,7 +32,7 @@ public class Vacancy {
         candidates = new ArrayList<Candidate>();
     }
 
-    public Vacancy(int id, Company company, String position, String requirements, String description, String email) {
+    public Vacancy(int id, Company company, String position, int requirements, String description, String email) {
         this.id = id;
         this.company = company;
         this.position = position;
@@ -42,7 +42,7 @@ public class Vacancy {
         this.candidates = new ArrayList<Candidate>();
     }
 
-    public Vacancy(Company company, String position, String requirements, String description, String email) {
+    public Vacancy(Company company, String position, int requirements, String description, String email) {
         this.company = company;
         this.position = position;
         this.requirements = requirements;
@@ -75,11 +75,11 @@ public class Vacancy {
         this.position = position;
     }
 
-    public String getRequirements() {
+    public int getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(String requirements) {
+    public void setRequirements(int requirements) {
         this.requirements = requirements;
     }
 
@@ -132,7 +132,7 @@ public class Vacancy {
         if (id != vacancy.id) return false;
         if (!company.equals(vacancy.company)) return false;
         if (!position.equals(vacancy.position)) return false;
-        if (!requirements.equals(vacancy.requirements)) return false;
+        if (requirements != vacancy.requirements) return false;
         if (description != null ? !description.equals(vacancy.description) : vacancy.description != null) return false;
         if (!email.equals(vacancy.email)) return false;
         return candidates.equals(vacancy.candidates);
@@ -144,7 +144,7 @@ public class Vacancy {
         int result = id;
         result = 31 * result + company.hashCode();
         result = 31 * result + position.hashCode();
-        result = 31 * result + requirements.hashCode();
+        result = 31 * result + requirements;
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + email.hashCode();
         result = 31 * result + candidates.hashCode();

@@ -29,6 +29,7 @@ public class CompanyController {
 
     public String toAdd() {
         currentCompany = new Company();
+        currentDirectorID = 0;
         return "addCompany";
     }
 

@@ -8,7 +8,7 @@ import java.io.Serializable;
 @NamedQuery(name = "Director.getAll", query = "SELECT d FROM Director d")
 public class Director implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "firstname", length = 64)
     private String firstname;

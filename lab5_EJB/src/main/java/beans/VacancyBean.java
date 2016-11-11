@@ -3,10 +3,13 @@ package beans;
 import entities.Vacancy;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class VacancyBean extends AbstractDAO<Vacancy> {
     @Override
     public List<Vacancy> getAllObjects() {

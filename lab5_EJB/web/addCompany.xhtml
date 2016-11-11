@@ -21,7 +21,7 @@
                 <td>Director ID: </td>
                 <td>
                     <h:inputText id="directorID" value="#{companyBean.currentDirectorID}">
-                        <f:validator validatorId="validators.CompanyValidator" />
+                        <f:validator binding="#{companyValidator}" />
                         <f:attribute name="currentCompany" value="#{companyBean.currentCompany}" />
                     </h:inputText>
                     <h:message for="directorID" style="color: red"/>

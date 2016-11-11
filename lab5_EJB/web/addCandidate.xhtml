@@ -27,6 +27,13 @@
                 <td><h:inputText value="#{candidateBean.currentCandidate.email}"/></td>
             </tr>
             <tr>
+                <td>Year experience: </td>
+                <td>
+                    <h:inputText id="year" value="#{candidateBean.currentCandidate.yearExperience}"/>
+                    <h:message for="year" style="color: red"/>
+                </td>
+            </tr>
+            <tr>
                 <td>CV URI: </td>
                 <td><h:inputText value="#{candidateBean.currentCandidate.cvURI}"/></td>
             </tr>

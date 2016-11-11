@@ -18,7 +18,7 @@
                 <td>Vacancy ID: </td>
                 <td>
                     <h:inputText id="vacancyID" value="#{linkBean.currentVacancyID}">
-                        <f:validator validatorId="validators.vacancyID" />
+                        <f:validator binding="#{linkVacancyIDValidator}" />
                     </h:inputText>
                     <h:message for="vacancyID" style="color: red"/>
                 </td>
@@ -27,7 +27,7 @@
                 <td>Candidate ID: </td>
                 <td>
                     <h:inputText id="candidateID" value="#{linkBean.currentCandidateID}">
-                        <f:validator validatorId="validators.candidateID" />
+                        <f:validator binding="#{linkCandidateIDValidator}" />
                     </h:inputText>
                     <h:message for="candidateID" style="color: red"/>
                 </td>

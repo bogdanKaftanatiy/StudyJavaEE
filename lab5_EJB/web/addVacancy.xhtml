@@ -18,7 +18,7 @@
                 <td>Company ID: </td>
                 <td>
                     <h:inputText id="companyID" value="#{vacancyBean.currentCompanyID}">
-                        <f:validator validatorId="validators.VacancyValidator" />
+                        <f:validator binding="#{vacancyValidator}" />
                         <f:attribute name="currentVacancy" value="#{vacancyBean.currentVacancy}" />
                     </h:inputText>
                     <h:message for="companyID" style="color: red"/>
@@ -30,7 +30,10 @@
             </tr>
             <tr>
                 <td>Requirements: </td>
-                <td><h:inputText value="#{vacancyBean.currentVacancy.requirements}"/></td>
+                <td>
+                    <h:inputText id="req" value="#{vacancyBean.currentVacancy.requirements}"/>
+                    <h:message for="req" style="color: red"/>
+                </td>
             </tr>
             <tr>
                 <td>Description: </td>

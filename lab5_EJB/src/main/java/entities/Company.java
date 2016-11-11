@@ -8,7 +8,7 @@ import java.io.Serializable;
 @NamedQuery(name = "Company.getAll", query = "SELECT c FROM Company c")
 public class Company implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name", length = 128)
     private String name;

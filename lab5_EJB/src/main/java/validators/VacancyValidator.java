@@ -7,13 +7,16 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("validators.VacancyValidator")
+@ManagedBean
+@RequestScoped
 public class VacancyValidator implements Validator {
     private final static Logger logger = Logger.getLogger(VacancyValidator.class);
     @EJB

@@ -11,6 +11,9 @@
 <h:body>
    <div style="width: 60%; float: left;">
       <h:form>
+         <h:commandLink value="Logout" action="#{userSession.logout()}" />
+      </h:form>
+      <h:form>
          <h2>Vacancies</h2>
          <h:dataTable value="#{vacancyBean.vacancyList}" var="vacancy"
              styleClass="table"

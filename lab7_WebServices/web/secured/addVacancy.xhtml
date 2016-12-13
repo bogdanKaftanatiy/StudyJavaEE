@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Add new vacancy</title>
+</h:head>
+
+<h:body>
+    <h1>Add new vacancy</h1>
+    <h:form>
+        <table>
+            <tr>
+                <td>Company ID: </td>
+                <td>
+                    <h:inputText id="companyID" value="#{vacancyBean.currentCompanyID}">
+                        <f:validator binding="#{vacancyValidator}" />
+                        <f:attribute name="currentVacancy" value="#{vacancyBean.currentVacancy}" />
+                    </h:inputText>
+                    <h:message for="companyID" style="color: red"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Position: </td>
+                <td><h:inputText value="#{vacancyBean.currentVacancy.position}"/></td>
+            </tr>
+            <tr>
+                <td>Requirements: </td>
+                <td>
+                    <h:inputText id="req" value="#{vacancyBean.currentVacancy.requirements}"/>
+                    <h:message for="req" style="color: red"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Description: </td>
+                <td><h:inputText value="#{vacancyBean.currentVacancy.description}"/></td>
+            </tr>
+            <tr>
+                <td>E-mail: </td>
+                <td><h:inputText value="#{vacancyBean.currentVacancy.email}"/></td>
+            </tr>
+        </table>
+        <h:commandButton value="Add" action="#{vacancyBean.insert()}"/>
+    </h:form>
+</h:body>
+
+</html>

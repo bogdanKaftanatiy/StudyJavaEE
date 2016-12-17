@@ -1,11 +1,9 @@
 package validators;
 
-import beans.CompanyBean;
-import entities.Company;
-import entities.Vacancy;
+import wsClient.*;
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -18,8 +16,14 @@ import javax.faces.validator.ValidatorException;
 @RequestScoped
 public class VacancyValidator implements Validator {
     private final static Logger logger = Logger.getLogger(VacancyValidator.class);
-    @EJB
-    private CompanyBean companyDAO;
+    private CompanyWS companyDAO;
+
+    @PostConstruct
+    public void init() {
+        CompanyWSImplService companyWSImplService = new CompanyWSImplService();
+        companyDAO = companyWSImplService.getCompanyWSImplPort();
+    }
+
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         String data = o.toString();
         int companyID;
@@ -30,7 +34,7 @@ public class VacancyValidator implements Validator {
             throw new ValidatorException(new FacesMessage("Failed parse id!"));
         }
 
-        Company company = companyDAO.getObject(companyID);
+        Company company = companyDAO.getCompany(companyID);
         if(company == null) {
             logger.error("Company with such id do not exist!");
             throw new ValidatorException(new FacesMessage("Company with such id do not exist!"));

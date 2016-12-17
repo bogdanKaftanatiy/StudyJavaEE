@@ -1,10 +1,9 @@
 package managedBeans;
 
-import beans.CandidateBean;
-import entities.Candidate;
+import wsClient.*;
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
@@ -13,16 +12,21 @@ import java.util.List;
 @SessionScoped
 public class CandidateController {
     private final static Logger logger = Logger.getLogger(CandidateController.class);
-    @EJB
-    private CandidateBean dao;
+    private CandidateWS dao;
     private Candidate currentCandidate;
 
+    @PostConstruct
+    public void init() {
+        CandidateWSImplService candidateWSImplService = new CandidateWSImplService();
+        dao = candidateWSImplService.getCandidateWSImplPort();
+    }
+
     public List<Candidate> getCandidateList() {
-        return dao.getAllObjects();
+        return dao.getCandidates();
     }
 
     public String insert() {
-        dao.updateObject(currentCandidate);
+        dao.updateCandidate(currentCandidate);
         return "index?faces-redirect=true";
     }
 
@@ -32,7 +36,7 @@ public class CandidateController {
     }
 
     public String remove(Candidate candidate) {
-        dao.deleteObject(candidate.getId());
+        dao.removeCandidate(candidate);
         return "index?faces-redirect=true";
     }
 

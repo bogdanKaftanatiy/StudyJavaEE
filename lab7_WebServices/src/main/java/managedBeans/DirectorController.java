@@ -1,10 +1,9 @@
 package managedBeans;
 
-import beans.DirectorBean;
-import entities.Director;
 import org.apache.log4j.Logger;
+import wsClient.*;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
@@ -13,16 +12,21 @@ import java.util.List;
 @SessionScoped
 public class DirectorController {
     private final static Logger logger = Logger.getLogger(DirectorController.class);
-    @EJB
-    private DirectorBean dao;
+    private DirectorWS dao;
     private Director currentDirector;
 
+    @PostConstruct
+    public void init() {
+        DirectorWSImplService directorWSImplService = new DirectorWSImplService();
+        dao = directorWSImplService.getDirectorWSImplPort();
+    }
+
     public List<Director> getDirectorList() {
-        return dao.getAllObjects();
+        return dao.getDirectors();
     }
 
     public String insert() {
-        dao.updateObject(currentDirector);
+        dao.updateDirector(currentDirector);
         return "index?faces-redirect=true";
     }
 
@@ -32,7 +36,7 @@ public class DirectorController {
     }
 
     public String remove(Director director) {
-        dao.deleteObject(director.getId());
+        dao.removeDirector(director);
         return "index?faces-redirect=true";
     }
 

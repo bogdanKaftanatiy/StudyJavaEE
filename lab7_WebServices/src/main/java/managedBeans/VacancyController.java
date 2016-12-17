@@ -1,10 +1,9 @@
 package managedBeans;
 
-import beans.VacancyBean;
-import entities.Vacancy;
+import wsClient.*;
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
@@ -13,17 +12,22 @@ import java.util.List;
 @SessionScoped
 public class VacancyController {
     private final static Logger logger = Logger.getLogger(VacancyController.class);
-    @EJB
-    private VacancyBean dao;
+    private VacancyWS dao;
     private Vacancy currentVacancy;
     private int currentCompanyID;
 
+    @PostConstruct
+    public void init() {
+        VacancyWSImplService vacancyWSImplService = new VacancyWSImplService();
+        dao = vacancyWSImplService.getVacancyWSImplPort();
+    }
+
     public List<Vacancy> getVacancyList() {
-        return dao.getAllObjects();
+        return dao.getVacancies();
     }
 
     public String insert() {
-        dao.updateObject(currentVacancy);
+        dao.updateVacancy(currentVacancy);
         return "index?faces-redirect=true";
     }
 
@@ -33,7 +37,7 @@ public class VacancyController {
     }
 
     public String remove(Vacancy vacancy) {
-        dao.deleteObject(vacancy.getId());
+        dao.removeVacancy(vacancy);
         return "index?faces-redirect=true";
     }
 

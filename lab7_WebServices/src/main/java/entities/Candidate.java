@@ -3,12 +3,15 @@ package entities;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @Entity
+@XmlRootElement
 @Table(name = "candidates", schema = "lab3_jpa")
 @NamedQuery(name = "Candidate.getAll", query = "SELECT c FROM Candidate c")
 public class Candidate implements Serializable {
@@ -27,6 +30,7 @@ public class Candidate implements Serializable {
     private int yearExperience;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "candidates")
     @JsonBackReference
+    @XmlTransient
     private List<Vacancy> vacancies;
 
     public Candidate() {
@@ -110,6 +114,7 @@ public class Candidate implements Serializable {
         this.cvURI = cvURI;
     }
 
+    @XmlTransient
     public List<Vacancy> getVacancies() {
         return vacancies;
     }

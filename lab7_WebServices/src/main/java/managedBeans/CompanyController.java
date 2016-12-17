@@ -1,10 +1,9 @@
 package managedBeans;
 
-import beans.CompanyBean;
-import entities.Company;
 import org.apache.log4j.Logger;
+import wsClient.*;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
@@ -13,17 +12,22 @@ import java.util.List;
 @SessionScoped
 public class CompanyController {
     private final static Logger logger = Logger.getLogger(CompanyController.class);
-    @EJB
-    private CompanyBean dao;
+    private CompanyWS dao;
     private Company currentCompany;
     private int currentDirectorID;
 
+    @PostConstruct
+    public void init() {
+        CompanyWSImplService companyWSImplService = new CompanyWSImplService();
+        dao = companyWSImplService.getCompanyWSImplPort();
+    }
+
     public List<Company> getCompanyList() {
-        return dao.getAllObjects();
+        return dao.getCompanies();
     }
 
     public String insert() {
-        dao.updateObject(currentCompany);
+        dao.updateCompany(currentCompany);
         return "index?faces-redirect=true";
     }
 
@@ -34,7 +38,7 @@ public class CompanyController {
     }
 
     public String remove(Company company) {
-        dao.deleteObject(company.getId());
+        dao.removeCompany(company);
         return "index?faces-redirect=true";
     }
 

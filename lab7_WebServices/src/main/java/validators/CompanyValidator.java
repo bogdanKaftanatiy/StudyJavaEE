@@ -1,11 +1,9 @@
 package validators;
 
-import beans.DirectorBean;
-import entities.Company;
-import entities.Director;
+import wsClient.*;
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -18,8 +16,13 @@ import javax.faces.validator.ValidatorException;
 @RequestScoped
 public class CompanyValidator implements Validator {
     private final static Logger logger = Logger.getLogger(CompanyValidator.class);
-    @EJB
-    private DirectorBean directorDAO;
+    private DirectorWS directorDAO;
+
+    @PostConstruct
+    public void init() {
+        DirectorWSImplService directorWSImplService = new DirectorWSImplService();
+        directorDAO = directorWSImplService.getDirectorWSImplPort();
+    }
 
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         String data = o.toString();
@@ -30,7 +33,7 @@ public class CompanyValidator implements Validator {
             logger.error("Failed parse director id!");
             throw new ValidatorException(new FacesMessage("Failed parse id!"));
         }
-        Director director = directorDAO.getObject(directorID);
+        Director director = directorDAO.getDirector(directorID);
         if(director == null) {
             logger.error("Director with such id do not exist!");
             throw new ValidatorException(new FacesMessage("Director with such id do not exist!"));

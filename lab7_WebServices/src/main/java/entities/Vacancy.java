@@ -3,10 +3,12 @@ package entities;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@XmlRootElement
 @Table(name = "vacancies", schema = "lab3_jpa")
 @NamedQuery(name = "Vacancy.getAll", query = "SELECT v FROM Vacancy v")
 public class Vacancy {
@@ -115,7 +117,7 @@ public class Vacancy {
         candidates.add(c);
     }
 
-    public void removeCancidate(int id) {
+    public void removeCandidate(int id) {
         for (Candidate c : candidates) {
             if(c.getId() == id) {
                 candidates.remove(c);

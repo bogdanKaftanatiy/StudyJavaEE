@@ -3,9 +3,12 @@ package entities;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
+@XmlRootElement
 @Table(name = "directors", schema = "lab3_jpa")
 @NamedQuery(name = "Director.getAll", query = "SELECT d FROM Director d")
 public class Director implements Serializable {
@@ -18,6 +21,7 @@ public class Director implements Serializable {
     private String surname;
     @OneToOne(mappedBy = "director")
     @JsonBackReference
+    @XmlTransient
     private Company company;
 
     public Director() {
@@ -71,6 +75,7 @@ public class Director implements Serializable {
         this.surname = surname;
     }
 
+    @XmlTransient
     public Company getCompany() {
         return company;
     }

@@ -28,7 +28,7 @@ public class VacancyCandidateLinkController {
     }
 
     public String remove(Vacancy vacancy, Candidate candidate){
-        vacancy.removeCancidate(candidate.getId());
+        vacancy.removeCandidate(candidate.getId());
         vacancyDAO.updateObject(vacancy);
         return "index?faces-redirect=true";
     }

@@ -1,9 +1,9 @@
 package validators;
 
-import beans.VacancyBean;
+import wsClient.*;
 import org.apache.log4j.Logger;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -16,8 +16,14 @@ import javax.faces.validator.ValidatorException;
 @RequestScoped
 public class LinkVacancyIDValidator implements Validator {
     private final static Logger logger = Logger.getLogger(LinkVacancyIDValidator.class);
-    @EJB
-    private VacancyBean vacancyDAO;
+    private VacancyWS vacancyDAO;
+
+    @PostConstruct
+    public void init() {
+        VacancyWSImplService vacancyWSImplService = new VacancyWSImplService();
+        vacancyDAO = vacancyWSImplService.getVacancyWSImplPort();
+    }
+
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         String data = o.toString();
         int vacancyID;
@@ -27,7 +33,7 @@ public class LinkVacancyIDValidator implements Validator {
             logger.error("Failed parse vacancy id!");
             throw new ValidatorException(new FacesMessage("Failed parse id!"));
         }
-        if(vacancyDAO.getObject(vacancyID) == null) {
+        if(vacancyDAO.getVacancy(vacancyID) == null) {
             logger.error("Vacancy with such id do not exist!");
             throw new ValidatorException(new FacesMessage("Vacancy with such id do not exist!"));
         }

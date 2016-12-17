@@ -3,9 +3,12 @@ package entities;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
+@XmlRootElement
 @Table(name = "companies", schema = "lab3_jpa")
 @NamedQuery(name = "Company.getAll", query = "SELECT c FROM Company c")
 public class Company implements Serializable {

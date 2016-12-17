@@ -1,5 +1,7 @@
 package entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ public class Director implements Serializable {
     @Column(name = "surname", length = 64)
     private String surname;
     @OneToOne(mappedBy = "director")
+    @JsonBackReference
     private Company company;
 
     public Director() {

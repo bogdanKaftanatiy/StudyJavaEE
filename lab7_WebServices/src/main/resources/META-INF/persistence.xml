@@ -5,6 +5,11 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:jboss/datasources/lab3_jpa</jta-data-source>
 
+        <class>entities.Director</class>
+        <class>entities.Candidate</class>
+        <class>entities.Company</class>
+        <class>entities.Vacancy</class>
+
         <properties>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
             <property name="dialect" value="org.hibernate.dialect.MySQLDialect" />

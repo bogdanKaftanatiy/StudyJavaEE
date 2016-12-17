@@ -1,5 +1,7 @@
 package entities;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Vacancy {
     @JoinTable(name = "vacancy_candidate",
             joinColumns = @JoinColumn(name = "vacancyID", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "candidateID", referencedColumnName = "id"))
+    @JsonManagedReference
     private List<Candidate> candidates;
 
     public Vacancy() {

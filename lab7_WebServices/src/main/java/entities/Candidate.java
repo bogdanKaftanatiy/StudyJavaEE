@@ -1,5 +1,7 @@
 package entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class Candidate implements Serializable {
     @Column(name = "yearExperiance")
     private int yearExperience;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "candidates")
+    @JsonBackReference
     private List<Vacancy> vacancies;
 
     public Candidate() {

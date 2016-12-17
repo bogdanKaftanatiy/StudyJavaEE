@@ -1,10 +1,9 @@
 package entities;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
@@ -19,7 +18,7 @@ public class Company implements Serializable {
     private String name;
     @OneToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "directorID", unique = true, nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Director director;
 
     public Company() {

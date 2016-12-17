@@ -1,6 +1,6 @@
 package entities;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,8 +20,8 @@ public class Director implements Serializable {
     @Column(name = "surname", length = 64)
     private String surname;
     @OneToOne(mappedBy = "director")
-    @JsonBackReference
     @XmlTransient
+    @JsonManagedReference
     private Company company;
 
     public Director() {
